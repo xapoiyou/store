@@ -10,152 +10,154 @@
 
     /* ── Top Bar ── */
     #top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #1a73e8;
-      color: white;
-      padding: 10px 16px;
-      font-size: 13px;
-      flex-wrap: wrap;
-      gap: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: #1a73e8; color: white; padding: 10px 16px;
+      font-size: 13px; flex-wrap: wrap; gap: 8px;
     }
     #top-bar span { font-weight: bold; }
     #location-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-size: 12px;
-      min-width: 220px;
-      justify-content: center;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.15); border-radius: 20px;
+      padding: 5px 12px; font-size: 12px; min-width: 220px; justify-content: center;
     }
-    #location-box .pin { font-size: 16px; }
     #loc-text { flex: 1; }
-    #loc-status {
-      font-size: 11px;
-      opacity: 0.85;
-    }
     #retry-btn {
-      background: white;
-      color: #1a73e8;
-      border: none;
-      border-radius: 12px;
-      padding: 3px 10px;
-      font-size: 11px;
-      cursor: pointer;
-      font-weight: bold;
-      display: none;
+      background: white; color: #1a73e8; border: none;
+      border-radius: 12px; padding: 3px 10px; font-size: 11px;
+      cursor: pointer; font-weight: bold; display: none;
     }
 
     /* ── Hero ── */
-    header {
-      background: linear-gradient(135deg, #1a73e8, #0d47a1);
-      color: white;
-      padding: 30px 16px;
-      text-align: center;
-    }
+    header { background: linear-gradient(135deg, #1a73e8, #0d47a1); color: white; padding: 30px 16px; text-align: center; }
     header h1 { font-size: 28px; margin-bottom: 6px; }
     header p { font-size: 14px; opacity: 0.9; }
 
-    /* ── Products Grid ── */
+    /* ── Products ── */
     .products { display: flex; flex-wrap: wrap; justify-content: center; padding: 24px 12px; gap: 20px; }
-
     .product-card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 280px;
-      overflow: hidden;
-      transition: transform 0.2s;
+      background: white; border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 280px;
+      overflow: hidden; transition: transform 0.2s;
     }
     .product-card:hover { transform: translateY(-4px); }
     .product-card img { width: 100%; height: 200px; object-fit: cover; }
     .card-body { padding: 16px; }
     .card-body h3 { font-size: 16px; margin-bottom: 6px; }
     .card-body .price { font-size: 18px; font-weight: bold; color: #1a73e8; margin-bottom: 12px; }
-
-    /* ── Buy Button ── */
     .buy-btn {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background: #28a745;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
+      display: block; width: 100%; padding: 10px;
+      background: #28a745; color: white; border: none;
+      border-radius: 6px; font-size: 15px; font-weight: bold;
+      cursor: pointer; text-align: center; text-decoration: none;
       transition: background 0.2s;
     }
     .buy-btn:hover:not(.disabled) { background: #218838; }
-    .buy-btn.disabled {
-      background: #aaa;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
+    .buy-btn.disabled { background: #aaa; cursor: not-allowed; pointer-events: none; }
 
     /* ── Location Warning ── */
     #loc-warning {
-      display: none;
-      background: #fff3cd;
-      border: 1px solid #ffc107;
-      color: #856404;
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin: 0 auto 16px;
-      max-width: 600px;
-      font-size: 13px;
-      text-align: center;
+      display: none; background: #fff3cd; border: 1px solid #ffc107;
+      color: #856404; border-radius: 8px; padding: 12px 16px;
+      margin: 16px auto 0; max-width: 600px; font-size: 13px; text-align: center;
     }
 
     /* ── Footer ── */
-    footer {
-      background: #222;
-      color: #ccc;
-      text-align: center;
-      padding: 16px;
-      font-size: 13px;
-      margin-top: 20px;
-    }
+    footer { background: #222; color: #ccc; text-align: center; padding: 16px; font-size: 13px; margin-top: 20px; }
     footer a { color: #90caf9; }
+
+    /* ══════════════════════════════════
+       NAME POPUP OVERLAY
+    ══════════════════════════════════ */
+    #popup-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.2s ease;
+    }
+    #popup-overlay.show { display: flex; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    #popup-box {
+      background: white; border-radius: 14px;
+      padding: 32px 28px; width: 90%; max-width: 380px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      text-align: center;
+      animation: slideUp 0.3s ease;
+    }
+    #popup-box .popup-icon { font-size: 42px; margin-bottom: 10px; }
+    #popup-box h2 { font-size: 20px; margin-bottom: 6px; color: #1a73e8; }
+    #popup-box p { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+
+    #name-input {
+      width: 100%; padding: 12px 14px;
+      border: 2px solid #ddd; border-radius: 8px;
+      font-size: 15px; outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 6px;
+    }
+    #name-input:focus { border-color: #1a73e8; }
+    #name-input.error { border-color: #dc3545; }
+
+    #name-error {
+      font-size: 12px; color: #dc3545;
+      margin-bottom: 14px; display: none; text-align: left;
+    }
+
+    #submit-name-btn {
+      width: 100%; padding: 12px;
+      background: #1a73e8; color: white;
+      border: none; border-radius: 8px;
+      font-size: 15px; font-weight: bold;
+      cursor: pointer; transition: background 0.2s;
+      margin-top: 8px;
+    }
+    #submit-name-btn:hover { background: #1558b0; }
+
+    /* Greeting chip in top bar */
+    #greeting-chip {
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 12px; display: none;
+    }
   </style>
 </head>
 <body>
 
-<!-- Top Bar with Location -->
+<!-- ── Top Bar ── -->
 <div id="top-bar">
   <span>🧼 Shreya Productivity</span>
-  <div id="location-box">
-    <span class="pin">📍</span>
-    <div>
-      <div id="loc-text">Detecting your location…</div>
-      <div id="loc-status"></div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <div id="greeting-chip"></div>
+    <div id="location-box">
+      <span>📍</span>
+      <div>
+        <div id="loc-text">Detecting your location…</div>
+        <div id="loc-status" style="font-size:11px;opacity:.85;"></div>
+      </div>
+      <button id="retry-btn" onclick="requestLocation()">Allow</button>
     </div>
-    <button id="retry-btn" onclick="requestLocation()">Allow</button>
   </div>
 </div>
 
-<!-- Hero -->
+<!-- ── Hero ── -->
 <header>
   <h1>Shreya Productivity</h1>
   <p>Authentic soap &amp; detergent products — delivered to your door.</p>
 </header>
 
-<!-- Location Warning Banner -->
+<!-- ── Location Warning ── -->
 <div id="loc-warning">
   ⚠️ <strong>Location access is required</strong> to place an order so we can deliver to you.<br>
   Please allow location access in your browser and click <strong>Allow</strong> above.
 </div>
 
-<!-- Products -->
+<!-- ── Products ── -->
 <div class="products">
-
   <div class="product-card">
     <img src="https://4.imimg.com/data4/EV/BM/MY-34594922/20161208_164908-1000x1000.jpg" alt="Dip Detergent Bar">
     <div class="card-body">
@@ -164,7 +166,6 @@
       <a id="btn-dip" class="buy-btn disabled" href="#">🛒 Order via Email</a>
     </div>
   </div>
-
   <div class="product-card">
     <img src="https://4.imimg.com/data4/EV/BM/MY-34594922/20161208_164908-1000x1000.jpg" alt="Premium Soap Bar">
     <div class="card-body">
@@ -173,53 +174,106 @@
       <a id="btn-soap" class="buy-btn disabled" href="#">🛒 Order via Email</a>
     </div>
   </div>
-
 </div>
 
-<!-- Footer -->
+<!-- ── Footer ── -->
 <footer>
   <p>Find us on <a href="https://maps.app.goo.gl/gmoWCpB4yun5iZp76" target="_blank">Google Maps</a> &nbsp;|&nbsp; © 2025 Shreya Productivity</p>
 </footer>
 
+<!-- ══════════════════════════════════
+     NAME POPUP
+══════════════════════════════════ -->
+<div id="popup-overlay">
+  <div id="popup-box">
+    <div class="popup-icon">👋</div>
+    <h2>Almost there!</h2>
+    <p>Your location was confirmed ✅<br>Please enter your full name so we can address your order correctly.</p>
+    <input id="name-input" type="text" placeholder="Ex: Harshil Patel" maxlength="60" />
+    <div id="name-error">⚠️ Please enter your full name to continue.</div>
+    <button id="submit-name-btn" onclick="submitName()">✅ Confirm &amp; Continue</button>
+  </div>
+</div>
+
 <script>
   const MAIL = "product@gmail.com";
   let userCoords = null;
+  let userName   = "";
 
-  // All buy buttons
   const btns = [
     { el: document.getElementById("btn-dip"),  name: "Dip Detergent Bar",  price: "₹50/Unit" },
     { el: document.getElementById("btn-soap"), name: "Premium Soap Bar",   price: "₹40/Unit" }
   ];
 
-  function buildMailto(productName, price, lat, lng) {
+  /* ── Build mailto ── */
+  function buildMailto(productName, price, lat, lng, name) {
     const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
     const body = encodeURIComponent(
-      `I would like to order: ${productName} (${price})\n\n` +
-      `--- My Details ---\n` +
-      `Name: \nMobile: \n\n` +
-      `My Live Location: ${mapsLink}\n` +
-      `Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}\n\n` +
+      `Order Name   : ${name}\n` +
+      `Product      : ${productName} (${price})\n\n` +
+      `--- Delivery Details ---\n` +
+      `Name   : ${name}\n` +
+      `Mobile : \n\n` +
+      `Live Location : ${mapsLink}\n` +
+      `Coordinates   : ${lat.toFixed(6)}, ${lng.toFixed(6)}\n\n` +
       `Please confirm my order. Thank you!`
     );
-    const subject = encodeURIComponent(`New Order: ${productName}`);
+    const subject = encodeURIComponent(`New Order from ${name}: ${productName}`);
     return `mailto:${MAIL}?subject=${subject}&body=${body}`;
   }
 
-  function enableButtons(lat, lng) {
+  function enableButtons() {
+    const { lat, lng } = userCoords;
     btns.forEach(b => {
       b.el.classList.remove("disabled");
-      b.el.href = buildMailto(b.name, b.price, lat, lng);
-      b.el.onclick = null; // remove any block
+      b.el.href = buildMailto(b.name, b.price, lat, lng, userName);
     });
   }
 
   function disableButtons() {
-    btns.forEach(b => {
-      b.el.classList.add("disabled");
-      b.el.href = "#";
-    });
+    btns.forEach(b => { b.el.classList.add("disabled"); b.el.href = "#"; });
   }
 
+  /* ── Name Popup ── */
+  function showNamePopup() {
+    document.getElementById("popup-overlay").classList.add("show");
+    setTimeout(() => document.getElementById("name-input").focus(), 300);
+  }
+
+  function submitName() {
+    const inp = document.getElementById("name-input");
+    const err = document.getElementById("name-error");
+    const val = inp.value.trim();
+
+    if (!val || val.length < 2) {
+      inp.classList.add("error");
+      err.style.display = "block";
+      inp.focus();
+      return;
+    }
+
+    inp.classList.remove("error");
+    err.style.display = "none";
+    userName = val;
+
+    // Close popup
+    document.getElementById("popup-overlay").classList.remove("show");
+
+    // Show greeting in top bar
+    const chip = document.getElementById("greeting-chip");
+    chip.textContent = `👤 ${userName}`;
+    chip.style.display = "inline-block";
+
+    // Now enable all buttons with name embedded
+    enableButtons();
+  }
+
+  // Allow Enter key inside input
+  document.getElementById("name-input").addEventListener("keydown", e => {
+    if (e.key === "Enter") submitName();
+  });
+
+  /* ── Location ── */
   function setLocText(text, status) {
     document.getElementById("loc-text").textContent = text;
     document.getElementById("loc-status").textContent = status || "";
@@ -232,8 +286,7 @@
 
     if (!navigator.geolocation) {
       setLocText("Geolocation not supported", "");
-      showWarning();
-      return;
+      showWarning(); return;
     }
 
     navigator.geolocation.getCurrentPosition(
@@ -245,9 +298,11 @@
         setLocText(`${lat.toFixed(5)}, ${lng.toFixed(5)}`, "✅ Location confirmed");
         document.getElementById("retry-btn").style.display = "none";
         document.getElementById("loc-warning").style.display = "none";
-        enableButtons(lat, lng);
+
+        // ✅ Location granted → show name popup
+        showNamePopup();
       },
-      err => {
+      () => {
         setLocText("Location not shared", "❌ Required to order");
         document.getElementById("retry-btn").style.display = "inline-block";
         showWarning();
@@ -261,7 +316,7 @@
     document.getElementById("loc-warning").style.display = "block";
   }
 
-  // Auto-request on page load
+  // Auto-start
   requestLocation();
 </script>
 </body>
