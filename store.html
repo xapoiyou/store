@@ -1,32 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Shreya Productivity - Online Store</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; }
-        .product-card { background: white; padding: 20px; margin: 20px auto; width: 300px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .buy-btn { background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; cursor: pointer; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shreya Productivity - Online Store</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f4f4f4; color: #333; }
+
+    /* ── Top Bar ── */
+    #top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1a73e8;
+      color: white;
+      padding: 10px 16px;
+      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    #top-bar span { font-weight: bold; }
+    #location-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      min-width: 220px;
+      justify-content: center;
+    }
+    #location-box .pin { font-size: 16px; }
+    #loc-text { flex: 1; }
+    #loc-status {
+      font-size: 11px;
+      opacity: 0.85;
+    }
+    #retry-btn {
+      background: white;
+      color: #1a73e8;
+      border: none;
+      border-radius: 12px;
+      padding: 3px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: bold;
+      display: none;
+    }
+
+    /* ── Hero ── */
+    header {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      color: white;
+      padding: 30px 16px;
+      text-align: center;
+    }
+    header h1 { font-size: 28px; margin-bottom: 6px; }
+    header p { font-size: 14px; opacity: 0.9; }
+
+    /* ── Products Grid ── */
+    .products { display: flex; flex-wrap: wrap; justify-content: center; padding: 24px 12px; gap: 20px; }
+
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 280px;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .product-card:hover { transform: translateY(-4px); }
+    .product-card img { width: 100%; height: 200px; object-fit: cover; }
+    .card-body { padding: 16px; }
+    .card-body h3 { font-size: 16px; margin-bottom: 6px; }
+    .card-body .price { font-size: 18px; font-weight: bold; color: #1a73e8; margin-bottom: 12px; }
+
+    /* ── Buy Button ── */
+    .buy-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .buy-btn:hover:not(.disabled) { background: #218838; }
+    .buy-btn.disabled {
+      background: #aaa;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ── Location Warning ── */
+    #loc-warning {
+      display: none;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      color: #856404;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 0 auto 16px;
+      max-width: 600px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 16px;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+    footer a { color: #90caf9; }
+  </style>
 </head>
 <body>
-    <h1>Shreya Productivity</h1>
-    <p>Authentic products delivered to your door.</p>
 
-    <!-- Product Example -->
-    <div class="product-card">
-        <img src="https://4.imimg.com/data4/EV/BM/MY-34594922/20161208_164908-1000x1000.jpg" alt="Dip Detergent Bar" width="100%">
-        <h3>Dip Detergent Bar</h3>
-        <p>Price: ₹50/Unit</p>
-        
-        <!-- Mailto Link for Ordering -->
-        <a class="buy-btn" href="mailto:product@gmail.com?subject=New Order: Premium Product&body=I would like to order: Premium Product%0A%0APlease provide your details:%0AName: %0AMobile: %0ADelivery Location: ">
-            Order via Email
-        </a>
+<!-- Top Bar with Location -->
+<div id="top-bar">
+  <span>🧼 Shreya Productivity</span>
+  <div id="location-box">
+    <span class="pin">📍</span>
+    <div>
+      <div id="loc-text">Detecting your location…</div>
+      <div id="loc-status"></div>
     </div>
+    <button id="retry-btn" onclick="requestLocation()">Allow</button>
+  </div>
+</div>
 
-    <footer>
-        <p>Find us on <a href="https://maps.app.goo.gl/gmoWCpB4yun5iZp76" target="_blank">Google Maps</a></p>
-    </footer>
+<!-- Hero -->
+<header>
+  <h1>Shreya Productivity</h1>
+  <p>Authentic soap &amp; detergent products — delivered to your door.</p>
+</header>
+
+<!-- Location Warning Banner -->
+<div id="loc-warning">
+  ⚠️ <strong>Location access is required</strong> to place an order so we can deliver to you.<br>
+  Please allow location access in your browser and click <strong>Allow</strong> above.
+</div>
+
+<!-- Products -->
+<div class="products">
+
+  <div class="product-card">
+    <img src="https://4.imimg.com/data4/EV/BM/MY-34594922/20161208_164908-1000x1000.jpg" alt="Dip Detergent Bar">
+    <div class="card-body">
+      <h3>Dip Detergent Bar</h3>
+      <div class="price">₹50 / Unit</div>
+      <a id="btn-dip" class="buy-btn disabled" href="#">🛒 Order via Email</a>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <img src="https://4.imimg.com/data4/EV/BM/MY-34594922/20161208_164908-1000x1000.jpg" alt="Premium Soap Bar">
+    <div class="card-body">
+      <h3>Premium Soap Bar</h3>
+      <div class="price">₹40 / Unit</div>
+      <a id="btn-soap" class="buy-btn disabled" href="#">🛒 Order via Email</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>Find us on <a href="https://maps.app.goo.gl/gmoWCpB4yun5iZp76" target="_blank">Google Maps</a> &nbsp;|&nbsp; © 2025 Shreya Productivity</p>
+</footer>
+
+<script>
+  const MAIL = "product@gmail.com";
+  let userCoords = null;
+
+  // All buy buttons
+  const btns = [
+    { el: document.getElementById("btn-dip"),  name: "Dip Detergent Bar",  price: "₹50/Unit" },
+    { el: document.getElementById("btn-soap"), name: "Premium Soap Bar",   price: "₹40/Unit" }
+  ];
+
+  function buildMailto(productName, price, lat, lng) {
+    const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+    const body = encodeURIComponent(
+      `I would like to order: ${productName} (${price})\n\n` +
+      `--- My Details ---\n` +
+      `Name: \nMobile: \n\n` +
+      `My Live Location: ${mapsLink}\n` +
+      `Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}\n\n` +
+      `Please confirm my order. Thank you!`
+    );
+    const subject = encodeURIComponent(`New Order: ${productName}`);
+    return `mailto:${MAIL}?subject=${subject}&body=${body}`;
+  }
+
+  function enableButtons(lat, lng) {
+    btns.forEach(b => {
+      b.el.classList.remove("disabled");
+      b.el.href = buildMailto(b.name, b.price, lat, lng);
+      b.el.onclick = null; // remove any block
+    });
+  }
+
+  function disableButtons() {
+    btns.forEach(b => {
+      b.el.classList.add("disabled");
+      b.el.href = "#";
+    });
+  }
+
+  function setLocText(text, status) {
+    document.getElementById("loc-text").textContent = text;
+    document.getElementById("loc-status").textContent = status || "";
+  }
+
+  function requestLocation() {
+    document.getElementById("retry-btn").style.display = "none";
+    document.getElementById("loc-warning").style.display = "none";
+    setLocText("Detecting location…", "");
+
+    if (!navigator.geolocation) {
+      setLocText("Geolocation not supported", "");
+      showWarning();
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        userCoords = { lat, lng };
+
+        setLocText(`${lat.toFixed(5)}, ${lng.toFixed(5)}`, "✅ Location confirmed");
+        document.getElementById("retry-btn").style.display = "none";
+        document.getElementById("loc-warning").style.display = "none";
+        enableButtons(lat, lng);
+      },
+      err => {
+        setLocText("Location not shared", "❌ Required to order");
+        document.getElementById("retry-btn").style.display = "inline-block";
+        showWarning();
+        disableButtons();
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  function showWarning() {
+    document.getElementById("loc-warning").style.display = "block";
+  }
+
+  // Auto-request on page load
+  requestLocation();
+</script>
 </body>
 </html>
